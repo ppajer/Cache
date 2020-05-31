@@ -1,6 +1,8 @@
 <?php
 
- class Cache implements ICache {
+require 'interface.ICache.php';
+
+class Cache implements ICache {
 
 	private $path;
 	private $expiry;
