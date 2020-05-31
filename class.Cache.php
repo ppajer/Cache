@@ -6,12 +6,17 @@
 	private $expiry;
 	private $data;
 
-	public function __construct($path, $expiry, $update) {
+	public function __construct($path, $expiry, $update = null) {
 		$this->path = $path;
 		$this->expiry = $expiry;
 		
-		if ($this->needsUpdate()) {
-			$this->writeFile(call_user_func($update));
+		if ($update) {
+			if (!is_callable($update) {
+				throw new Exception('Cache::__construct requires its third parameter to be callable');
+			}
+			if ($this->needsUpdate()) {
+				$this->write(call_user_func($update));
+			}
 		}
 
 		$this->data = $this->readFile();
@@ -19,6 +24,11 @@
 
 	public function read() {
 		return $this->data;
+	}
+	 
+	public function write($data) {
+		$this->data = $data;
+		return $this->writeFile($data);
 	}
 
 	private function needsUpdate() {
