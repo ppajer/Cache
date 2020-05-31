@@ -1,6 +1,6 @@
 <?php
 
- class Cache {
+ class Cache implements ICache {
 
 	private $path;
 	private $expiry;
@@ -31,7 +31,7 @@
 		return $this->writeFile($data);
 	}
 
-	private function needsUpdate() {
+	public function needsUpdate() {
 		if (!file_exists($this->path)) {
 			return true;
 		}
