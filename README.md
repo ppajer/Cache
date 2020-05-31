@@ -15,7 +15,7 @@ $path = 'cache.json';
 $expiry = 36000;
 $cache = new Cache($path, $expiry);
 
-if ($cache->isExpired()) {
+if ($cache->needsUpdate()) {
   $data = // get some new data;
   $cache->write($data);
  } else {
@@ -44,3 +44,13 @@ if ($cache->isExpired()) {
  $cache = new Cache('cache.json', 36000, 'get_data'); // Cache will update itself using the provided function if expired
  $apiCache = new Cache('api.json', 36000, array(API::class, 'get_data')); // Accepts any callable that returns data
  ```
+ 
+ ## Interface
+ 
+ ```(php)
+ interface ICache {
+	public function write($data) : bool;
+	public function read() : string;
+	public function isExpired() : bool;
+}
+```
